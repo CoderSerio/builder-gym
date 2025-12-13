@@ -1,0 +1,7 @@
+{
+  "distDir": "dist",
+  "buildCommand": "pnpm run build",
+  "baselineKey": "05-migrate-to-rspack",
+  "clean": true
+}
+

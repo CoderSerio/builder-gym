@@ -1,0 +1,7 @@
+{
+  "//": "TODO: 如使用 OXC，配置入口/输出/target，或在 CLI 中传参。",
+  "target": "es2020",
+  "jsx": "automatic",
+  "modules": "esnext"
+}
+

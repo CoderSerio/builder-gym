@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/swc",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "decorators": false
+    },
+    "transform": {
+      "react": {
+        "runtime": "automatic",
+        "refresh": true
+      }
+    },
+    "target": "es2019"
+  },
+  "module": {
+    "type": "es6"
+  },
+  "sourceMaps": true
+}
+
+

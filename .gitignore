@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.turbo/
+.cache/
+.rspack-cache/
+.webpack-cache/
+.rollup.cache/
+*.log
+coverage/
+tmp/
+.DS_Store
+pnpm-lock.yaml
+
+

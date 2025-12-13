@@ -1,0 +1,8 @@
+{
+  "distDir": "dist",
+  "buildCommand": "pnpm run build",
+  "baselineKey": "08-ssr-bundle",
+  "clean": true
+}
+
+

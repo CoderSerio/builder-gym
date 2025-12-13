@@ -1,0 +1,14 @@
+{
+  "name": "@build-gym/07-swc-oxc",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node ../../scripts/mock-build.js",
+    "bench": "node ../../scripts/benchmark.js"
+  },
+  "benchConfig": {
+    "distDir": "dist",
+    "baselineKey": "07-swc-oxc"
+  }
+}
+

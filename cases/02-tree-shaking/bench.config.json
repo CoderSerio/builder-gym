@@ -1,0 +1,8 @@
+{
+  "distDir": "dist",
+  "buildCommand": "pnpm run build",
+  "baselineKey": "02-tree-shaking",
+  "clean": true
+}
+
+

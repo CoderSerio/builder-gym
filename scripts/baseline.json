@@ -1,0 +1,52 @@
+{
+  "01-basic": {
+    "note": "占位：基础入门基线，可自行更新 time/size",
+    "timeMs": 0,
+    "sizeBytes": 0,
+    "gzipBytes": 0
+  },
+  "02-tree-shaking": {
+    "note": "占位：sideEffects/Tree Shaking 基线",
+    "timeMs": 0,
+    "sizeBytes": 0,
+    "gzipBytes": 0
+  },
+  "03-split-vendor": {
+    "note": "占位：Vendor 拆分/缓存稳定基线",
+    "timeMs": 0,
+    "sizeBytes": 0,
+    "gzipBytes": 0
+  },
+  "04-runtime-chunk": {
+    "note": "占位：runtime 稳定基线",
+    "timeMs": 0,
+    "sizeBytes": 0,
+    "gzipBytes": 0
+  },
+  "05-migrate-to-rspack": {
+    "note": "占位：迁移 Rspack 性能基线",
+    "timeMs": 0,
+    "sizeBytes": 0,
+    "gzipBytes": 0
+  },
+  "06-lib-bundle": {
+    "note": "占位：库构建基线",
+    "timeMs": 0,
+    "sizeBytes": 0,
+    "gzipBytes": 0
+  },
+  "07-swc-oxc": {
+    "note": "占位：新兴链路性能基线",
+    "timeMs": 0,
+    "sizeBytes": 0,
+    "gzipBytes": 0
+  },
+  "08-ssr-bundle": {
+    "note": "占位：SSR/multi-entry 基线",
+    "timeMs": 0,
+    "sizeBytes": 0,
+    "gzipBytes": 0
+  }
+}
+
+

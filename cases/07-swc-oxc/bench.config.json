@@ -1,0 +1,8 @@
+{
+  "distDir": "dist",
+  "buildCommand": "pnpm run build",
+  "baselineKey": "07-swc-oxc",
+  "clean": true
+}
+
+

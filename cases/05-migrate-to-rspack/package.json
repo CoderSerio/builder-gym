@@ -1,0 +1,14 @@
+{
+  "name": "@build-gym/05-migrate-to-rspack",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node ../../scripts/mock-build.js",
+    "bench": "node ../../scripts/benchmark.js"
+  },
+  "benchConfig": {
+    "distDir": "dist",
+    "baselineKey": "05-migrate-to-rspack"
+  }
+}
+

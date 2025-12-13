@@ -1,0 +1,8 @@
+{
+  "distDir": "dist",
+  "buildCommand": "pnpm run build",
+  "baselineKey": "04-runtime-chunk",
+  "clean": true
+}
+
+
