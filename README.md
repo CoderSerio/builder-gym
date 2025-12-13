@@ -9,6 +9,7 @@
 - `scripts/baseline.json`: 各关卡基线占位。
 
 ## 快速开始
+
 ```bash
 pnpm install   # 如需实际运行各关卡，请安装所需依赖
 pnpm bench     # 在根目录运行基准（默认对当前目录或 --cwd 指定目录）
@@ -37,5 +38,6 @@ cd cases/01-basic && pnpm bench
 1. 先阅读对应关卡 README，理解反例与目标。
 2. 按任务修改配置或代码，复跑 `pnpm bench` 验证。
 3. 对照 `solution/` 参考答案，理解差异与原因（每关 solution 现已列出“改什么/为什么改”具体指引）。
+
 
 

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "node ../../scripts/mock-build.js",
+    "build:dev": "node ../../scripts/mock-build.js",
     "bench": "node ../../scripts/benchmark.js"
   },
   "benchConfig": {
@@ -11,5 +12,3 @@
     "baselineKey": "01-basic"
   }
 }
-
-
