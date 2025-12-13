@@ -1,26 +1,173 @@
 # Solution - 02 Tree Shaking（具体改法与原因）
 
 ## 需要改什么
-1) `package.json`
-- 增加 `"sideEffects": ["*.css"]`（或列出确有副作用的文件），其余默认为可摇树。
-- 若使用 ESM，设置 `"type": "module"` 或在 `exports` 中声明 ESM/CJS。
 
-2) 源码
-- 将 `legacy.cjs` 改成 ESM（`export const ...`）或在 webpack/rollup 里用 commonjs 插件处理。
-- 确保入口和工具链使用 ESM，避免 `require` 动态导入阻断静态分析。
+### 1. `package.json` - 声明 sideEffects
 
-3) webpack
-- `optimization.usedExports: true`，`optimization.sideEffects: true`，`optimization.concatenateModules: true`。
-- 产物：`filename/chunkFilename` 使用 `[name].[contenthash].js`。
-- loader：改为 `swc-loader` 或精简 babel 配置，减少无关插件。
+**改动**：
 
-4) rollup
-- 启用 treeshake（默认即可，显式 `treeshake: true`）。
-- 添加 `@rollup/plugin-node-resolve`、`@rollup/plugin-commonjs`，必要时 `@rollup/plugin-babel` 或 swc 插件。
-- `manualChunks` 可按依赖分组，产物 `dir: dist`，format: `esm`。
+```json
+{
+  "name": "case-02-tree-shaking",
+  // ... 其他配置
+  "sideEffects": ["*.css"],
+}
+```
+
+**原因**：告诉构建工具哪些文件有副作用（如 CSS、polyfill）不能删除，其他未声明的文件可以安全摇树。
+
+---
+
+### 2. `src/utils/legacy.cjs` - 改为 ESM
+
+**改动**：
+
+- 将 `module.exports = { ... }` 改为 `export const ...`
+- 或改文件名为 `.js` 并使用 ESM 语法
+- 或在 webpack/rollup 中用 commonjs 插件处理
+
+**原因**：CJS 的动态特性（`require`）会阻断静态分析，导致 Tree Shaking 失效。
+
+---
+
+### 3. `webpack.config.js` - 启用优化选项
+**改动**：
+```js
+module.exports = {
+  mode: 'production',
+  // ...
+  optimization: {
+    usedExports: true,         // 标记未使用的导出
+    sideEffects: true,         // 根据 package.json sideEffects 删除
+    concatenateModules: true   // 模块合并（Scope Hoisting）
+  },
+  output: {
+    filename: '[name].[contenthash].js',
+    // ...
+  }
+}
+```
+
+**原因**：这三个选项组合能最大化 Tree Shaking 效果，contenthash 便于对比优化前后体积。
+
+---
+
+### 4. `rollup.config.js` - 启用 treeshake 与插件
+
+**改动**：
+
+```js
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+
+export default {
+  // ...
+  plugins: [
+    resolve(),    // 解析 node_modules
+    commonjs()    // 转换 CJS 为 ESM
+  ],
+  treeshake: true,  // 默认开启，显式声明更清晰
+  output: {
+    format: 'esm',
+    dir: 'dist'
+  }
+}
+```
+
+**原因**：rollup 天生支持 Tree Shaking，但需要 commonjs 插件处理旧依赖。
+
+---
 
 ## 为什么这样改
-- `sideEffects` 正确声明可让构建器大胆删除未用代码，同时保留确实有副作用的样式/Polyfill。
-- 统一 ESM 让静态分析生效，避免 CJS 动态特性破坏摇树。
-- webpack 的 usedExports/concatenateModules 结合 ESM 可减少包裹开销；rollup 天生 treeshake，但仍需处理 commonjs。
-- contenthash 便于对比优化前后体积变化与缓存表现。
+- **sideEffects 声明**：让构建器知道哪些文件可以安全删除，避免误删有副作用的代码（如样式、polyfill）。
+- **统一 ESM**：静态的 `import/export` 可以在编译时分析依赖关系，`require` 的动态特性会破坏这个分析。
+- **webpack 优化选项**：
+  - `usedExports`：标记每个模块的哪些导出被使用
+  - `sideEffects`：根据 package.json 配置删除无副作用的未使用模块
+  - `concatenateModules`：把多个模块合并到一个闭包，减少包裹开销
+- **rollup 插件**：虽然 rollup 默认 treeshake，但需要插件处理 node_modules 和 CJS 依赖。
+
+---
+
+## 完整参考配置
+
+### `package.json`
+```json
+{
+  "name": "case-02-tree-shaking",
+  "sideEffects": ["*.css"],
+  "scripts": {
+    "build:webpack": "webpack --mode production",
+    "build:rollup": "rollup -c",
+    "build": "npm run build:webpack"
+  },
+  "devDependencies": {
+    "webpack": "^5.x",
+    "webpack-cli": "^5.x",
+    "rollup": "^4.x",
+    "@rollup/plugin-node-resolve": "^15.x",
+    "@rollup/plugin-commonjs": "^25.x"
+  }
+}
+```
+
+### `webpack.config.js`
+```js
+const path = require('path');
+
+module.exports = {
+  mode: 'production',
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[contenthash].js',
+    clean: true
+  },
+  optimization: {
+    usedExports: true,
+    sideEffects: true,
+    concatenateModules: true
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      }
+      // ... 其他 loader
+    ]
+  }
+};
+```
+
+### `rollup.config.js`
+```js
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+
+export default {
+  input: 'src/index.js',
+  output: {
+    dir: 'dist',
+    format: 'esm',
+    entryFileNames: '[name].[hash].js'
+  },
+  plugins: [
+    resolve(),
+    commonjs()
+  ],
+  treeshake: true
+};
+```
+
+### `src/utils/legacy.cjs` → 改为 ESM
+**改前**：
+```js
+module.exports = {
+  legacyHelper: function() { /* ... */ }
+};
+```
+**改后**：
+```js
+export const legacyHelper = function() { /* ... */ };
+```

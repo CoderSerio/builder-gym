@@ -1,7 +1,8 @@
 # 02 Tree Shaking & sideEffects
 
 ## 背景故事
-一个组件包全量引入，产物里留下大量未使用的函数；同时 package.json 缺少 sideEffects 声明，导致摇树失效。
+一个组件包全量引入，产物里留下大量未使用的函数；
+同时 `package.json` 缺少 `sideEffects` 声明，导致树摇失效。
 
 ## 现象
 - 打包后含未使用的 util 函数。

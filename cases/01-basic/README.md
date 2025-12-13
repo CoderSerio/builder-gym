@@ -8,13 +8,12 @@
 - `webpack.config.js` 存在但仅演示最简配置（开发模式、无 contenthash、未接入构建命令）。
 - 缺少 webpack 相关依赖（webpack、swc-loader 等）。
 
-## 任务清单
 
-根据把占位脚本替换为真实 webpack 构建，并优化配置以适配生产/开发环境。
+## 任务清单
 
 ### 1. 安装依赖
 
-> 命令中的 swc-loader 可以替换为 babel-loader
+> swc-loader 可以看作是 rust 版本的 babel-loader，性能会更好
 
 ```bash
 pnpm add -D webpack webpack-cli swc-loader @swc/core style-loader css-loader
@@ -45,7 +44,7 @@ pnpm add -D webpack webpack-cli swc-loader @swc/core style-loader css-loader
 
 ### 4. 验证
 ```bash
-pnpm build        # 执行生产构建（webpack --mode production）
+pnpm build            # 执行生产构建（webpack --mode production）
 ls dist               # 查看产物：应有 dist/bundle.[hash].js
 pnpm bench            # 跑基准：清理 dist → 构建 → 统计体积/耗时/gzip
 ```
