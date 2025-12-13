@@ -1,8 +1,0 @@
-{
-  "distDir": "dist",
-  "buildCommand": "pnpm run build",
-  "baselineKey": "01-basic",
-  "clean": true
-}
-
-

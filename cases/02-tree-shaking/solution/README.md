@@ -79,6 +79,7 @@ export default {
 ---
 
 ## 为什么这样改
+
 - **sideEffects 声明**：让构建器知道哪些文件可以安全删除，避免误删有副作用的代码（如样式、polyfill）。
 - **统一 ESM**：静态的 `import/export` 可以在编译时分析依赖关系，`require` 的动态特性会破坏这个分析。
 - **webpack 优化选项**：

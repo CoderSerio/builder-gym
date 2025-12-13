@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "node ../../scripts/mock-build.js",
+    "build:webpack": "webpack --mode production --config webpack.config.js",
+    "build:rollup": "rollup -c rollup.config.js",
+    "build": "pnpm run build:webpack",
     "bench": "node ../../scripts/benchmark.js"
   },
   "benchConfig": {
@@ -11,5 +13,3 @@
     "baselineKey": "02-tree-shaking"
   }
 }
-
-

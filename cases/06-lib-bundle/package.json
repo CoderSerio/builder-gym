@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "node ../../scripts/mock-build.js",
+    "build:tsup": "tsup --config tsup.config.ts",
+    "build:rollup": "rollup -c rollup.config.js",
+    "build": "pnpm run build:tsup",
     "bench": "node ../../scripts/benchmark.js"
   },
   "benchConfig": {

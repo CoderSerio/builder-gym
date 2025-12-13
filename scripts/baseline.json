@@ -1,6 +1,12 @@
 {
+  "00-basic": {
+    "note": "占位：webpack 核心字段基线",
+    "timeMs": 0,
+    "sizeBytes": 0,
+    "gzipBytes": 0
+  },
   "01-basic": {
-    "note": "占位：基础入门基线，可自行更新 time/size",
+    "note": "占位：contenthash 缓存优化基线",
     "timeMs": 0,
     "sizeBytes": 0,
     "gzipBytes": 0

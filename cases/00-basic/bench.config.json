@@ -1,0 +1,7 @@
+{
+  "buildCommand": "build",
+  "distDir": "dist",
+  "baselineKey": "00-basic",
+  "metrics": ["time", "size", "gzip"]
+}
+

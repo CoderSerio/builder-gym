@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "node ../../scripts/mock-build.js",
+    "build:swc": "swc src -d dist --config-file swc.config.json",
+    "build:rspack": "rspack build -c rspack.config.template.js",
+    "build": "pnpm run build:swc",
     "bench": "node ../../scripts/benchmark.js"
   },
   "benchConfig": {

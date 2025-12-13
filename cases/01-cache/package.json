@@ -1,0 +1,23 @@
+{
+  "name": "@build-gym/01-basic",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build:bad": "webpack --mode production --config webpack.bad.config.js",
+    "build:good": "webpack --mode production --config webpack.good.config.js",
+    "build": "pnpm run build:bad",
+    "bench": "node ../../scripts/benchmark.js"
+  },
+  "benchConfig": {
+    "distDir": "dist/good",
+    "baselineKey": "01-basic"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.15.4",
+    "css-loader": "^7.1.2",
+    "style-loader": "^4.0.0",
+    "swc-loader": "^0.2.6",
+    "webpack": "^5.103.0",
+    "webpack-cli": "^6.0.1"
+  }
+}

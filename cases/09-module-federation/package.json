@@ -1,0 +1,28 @@
+{
+  "name": "@build-gym/09-module-federation",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build:remote:webpack": "webpack --mode production --config remote/webpack.config.js",
+    "build:host:webpack": "webpack --mode production --config host/webpack.config.js",
+    "build:remote:rspack": "rspack build -c remote/rspack.config.js",
+    "build:host:rspack": "rspack build -c host/rspack.config.js",
+
+    "serve:remote:webpack": "node serve-static.js --dir remote/dist/webpack --port 3001 --cors",
+    "serve:host:webpack": "node serve-static.js --dir host/dist/webpack --port 3000 --cors",
+    "serve:remote:rspack": "node serve-static.js --dir remote/dist/rspack --port 3001 --cors",
+    "serve:host:rspack": "node serve-static.js --dir host/dist/rspack --port 3000 --cors",
+
+    "dev:webpack": "node dev-runner.js --tool webpack",
+    "dev:rspack": "node dev-runner.js --tool rspack",
+
+    "build": "pnpm run build:remote:webpack && pnpm run build:host:webpack",
+    "bench": "node ../../scripts/benchmark.js"
+  },
+  "benchConfig": {
+    "distDir": "host/dist/webpack",
+    "baselineKey": "09-module-federation"
+  }
+}
+
+

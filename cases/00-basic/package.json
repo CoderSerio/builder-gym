@@ -1,0 +1,11 @@
+{
+  "name": "case-00-basic",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:dev": "node ../../scripts/mock-build.js",
+    "build": "node ../../scripts/mock-build.js",
+    "bench": "node ../../scripts/benchmark.js"
+  },
+  "description": "00 - webpack 基础入门：认识 mode/entry/output/module"
+}

@@ -1,6 +1,6 @@
-# 05 旧项目迁移：webpack → Rspack
+## 00 基础入门：认识 webpack 核心字段
 
-本关聚焦“迁移与对齐”：把一个 webpack 老配置迁移到 Rspack，并通过 cache/lazyCompilation 等手段提升开发体验。
+从零认识 webpack 的四大核心字段：`mode`、`entry`、`output`、`module`。
 
 ## 阅读顺序
 - `tasks.md`：任务与验收（不含答案）

@@ -1,0 +1,8 @@
+{
+  "distDir": "host/dist/webpack",
+  "buildCommand": "pnpm run build",
+  "baselineKey": "09-module-federation",
+  "clean": true
+}
+
+

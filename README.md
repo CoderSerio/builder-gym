@@ -5,6 +5,8 @@
 ## 目录结构
 - `cases/01-basic` … `08-ssr-bundle(optional)`: 关卡代码与 README。
 - `cases/*/solution/`: 参考答案与讲解。
+- `cases/*/tasks.md`: 任务说明（背景/现状/任务/验收，不含答案）。
+- `cases/*/learning.md`: 学习文档（教学讲解 + 依赖安装命令）。
 - `scripts/benchmark.js`: 通用裁判脚本，支持多工具、按关卡基线。
 - `scripts/baseline.json`: 各关卡基线占位。
 
@@ -20,7 +22,8 @@ cd cases/01-basic && pnpm bench
 > 本仓库初始为教学模板，build 命令多为占位。请按各关 README 的任务完成配置后再运行 benchmark。
 
 ## 学习路线（对应关卡）
-1. 基础打包入门：webpack + swc-loader
+0. 基础入门：认识 webpack 核心字段（mode/entry/output/module）
+1. 缓存优化：contenthash 与 devtool 策略
 2. Tree Shaking & sideEffects：webpack / rollup
 3. Vendor 拆分与缓存稳定
 4. Runtime Chunk 稳定性

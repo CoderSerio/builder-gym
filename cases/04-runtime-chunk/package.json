@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "node ../../scripts/mock-build.js",
+    "build:webpack:bad": "webpack --mode production --config webpack.runtime.bad.js",
+    "build:webpack": "webpack --mode production --config webpack.runtime.template.js",
+    "build:rspack": "rspack build -c rspack.runtime.template.js",
+    "build": "pnpm run build:webpack:bad",
     "bench": "node ../../scripts/benchmark.js"
   },
   "benchConfig": {
