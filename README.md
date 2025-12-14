@@ -31,6 +31,8 @@ cd cases/01-basic && pnpm bench
 6. 库构建现代化：rollup/tsup/swc
 7. 新兴链路探索：SWC/OXC/Rspack
 8. 多入口/SSR-friendly 打包
+9. 模块联邦
+10. 幽灵依赖（TODO)
 
 ## Benchmark 说明
 - 默认读取 `scripts/baseline.json` 的 per-case 基线；关卡可定义局部配置（待填）。

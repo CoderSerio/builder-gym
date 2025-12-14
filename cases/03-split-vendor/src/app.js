@@ -1,6 +1,6 @@
 export function renderApp(root) {
   const el = document.createElement("div");
-  el.textContent = "App code chunk (模拟业务层)";
+  el.textContent = "App code chunk (模拟业务 🐱)";
   root.appendChild(el);
 }
 

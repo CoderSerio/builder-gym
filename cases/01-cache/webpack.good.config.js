@@ -3,8 +3,6 @@ const path = require("path");
 /**
  * 正例（good）：
  * - 文件名包含 [contenthash]（内容变 → hash 变 → 文件名变）
- * - 关键点：这里故意不 clean，让你在本关能看到“多版本产物同时存在”的效果
- *   （老用户缓存里引用旧 hash，依然能命中旧文件；新用户拿到新 hash）
  */
 module.exports = {
   mode: "production",
@@ -13,6 +11,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist/good"),
     // TODO: 修改 filename 配置，使之变得缓存友好
     filename: "bundle.js",
+    //这里故意不 clean，让你在本关能看到“多版本产物同时存在”的效果
     clean: false
   },
   module: {
