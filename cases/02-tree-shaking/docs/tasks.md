@@ -1,7 +1,8 @@
 # 02 任务：修复 Tree Shaking（sideEffects / ESM vs CJS）
 
 ## 背景
-一个组件包全量引入，产物里留下大量未使用的函数；同时 `package.json` 缺少 `sideEffects` 声明，导致 Tree Shaking 失效。
+一个组件包全量引入，产物里留下大量未使用的函数；
+同时 `package.json` 缺少 `sideEffects` 声明，导致 Tree Shaking 失效。
 
 ## 现象
 - 打包后含未使用的 util 函数。
@@ -13,7 +14,8 @@
 请阅读 `learning.md`。
 
 ### 2. 修正 `package.json` 的 `sideEffects`
-正确标记哪些文件“有副作用不能删”，其余文件应允许摇树。
+正确标记哪些文件“有副作用不能删”，
+这里我们假设`../src/styles.css`不能删，其余文件应允许摇树。
 
 ### 3. 解决 CJS 阻断摇树问题
 让示例中的 CJS util 不再阻断（改为 ESM 或引入对应转换方案）。

@@ -20,11 +20,10 @@
 
 ### 2. `src/utils/legacy.cjs` - 改为 ESM
 
-**改动**：
+**改动（两种办法）**：
 
-- 将 `module.exports = { ... }` 改为 `export const ...`
-- 或改文件名为 `.js` 并使用 ESM 语法
-- 或在 webpack/rollup 中用 commonjs 插件处理
+1. 改文件名为 `.js` 并使用 ESM 语法，即 `module.exports = { ... }` 改为 `export const ...`
+2. 或在 webpack/rollup 中用 commonjs 插件处理
 
 **原因**：CJS 的动态特性（`require`）会阻断静态分析，导致 Tree Shaking 失效。
 
@@ -59,12 +58,14 @@ module.exports = {
 ```js
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import postcss from 'rollup-plugin-postcss';
 
 export default {
   // ...
   plugins: [
     resolve(),    // 解析 node_modules
-    commonjs()    // 转换 CJS 为 ESM
+    commonjs(),   // 转换 CJS 为 ESM（也可以选择手动改 legacy.cjs 为 esm js，这样就不需要这个插件）
+    postcss({ inject: true }) // 让 rollup 能处理 import "./styles.css"
   ],
   treeshake: true,  // 默认开启，显式声明更清晰
   output: {
