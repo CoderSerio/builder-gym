@@ -2,9 +2,15 @@
   "name": "@build-gym/05-migrate-to-rspack",
   "version": "0.0.0",
   "private": true,
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
   "scripts": {
-    "build:webpack": "webpack --mode development --config webpack.legacy.js",
-    "build:rspack": "rspack build -c rspack.config.template.js",
+    "dev:webpack": "webpack serve --mode development --config webpack.config.js",
+    "dev:rspack": "rspack dev -c rspack.config.js",
+    "build:webpack": "webpack --mode development --config webpack.config.js",
+    "build:rspack": "rspack build -c rspack.config.js",
     "build": "pnpm run build:webpack",
     "bench": "node ../../scripts/benchmark.js"
   },
@@ -13,4 +19,3 @@
     "baselineKey": "05-migrate-to-rspack"
   }
 }
-

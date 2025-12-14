@@ -1,7 +1,8 @@
-# 05 任务：webpack → Rspack 迁移与性能优化
+# 05 任务：Webpack → Rspack 迁移与性能优化
 
 ## 背景
-一个使用 Babel+webpack 的老项目，构建慢、HMR 慢。你需要在保持功能的情况下迁移到 Rspack，压缩构建时间。
+一个使用 Babel+webpack 的老项目，构建慢、HMR 慢。
+我们需要在保持功能的情况下迁移到 Rspack，压缩构建时间。
 
 ## 现象
 - Babel pipeline 深、插件多，构建耗时长。
@@ -13,7 +14,8 @@
 依赖安装命令请看 `learning.md`（本文件不提供答案命令）。
 
 ### 2. 迁移配置：webpack → Rspack
-将 `webpack.legacy.js` 的关键能力迁移到 Rspack（入口、loader、样式处理等）。
+将 `webpack.config.js`（对照组）的关键能力迁移到 `rspack.config.js`（目标组），
+确保行为等价（入口、JSX 转译、CSS 处理等）。
 
 ### 3. 开发体验优化
 调整：
