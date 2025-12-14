@@ -52,6 +52,12 @@
     "timeMs": 0,
     "sizeBytes": 0,
     "gzipBytes": 0
+  },
+  "10-cycle-ghost": {
+    "note": "占位：循环引用 + 幽灵依赖 基线",
+    "timeMs": 0,
+    "sizeBytes": 0,
+    "gzipBytes": 0
   }
 }
 

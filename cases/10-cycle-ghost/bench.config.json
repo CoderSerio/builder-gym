@@ -1,0 +1,6 @@
+{
+  "distDir": "dist",
+  "buildCommand": "pnpm run build",
+  "baselineKey": "10-cycle-ghost",
+  "clean": true
+}

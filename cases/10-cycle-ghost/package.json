@@ -1,0 +1,13 @@
+{
+  "name": "@build-gym/10-cycle-ghost",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node src/index.js",
+    "bench": "node ../../scripts/benchmark.js"
+  },
+  "benchConfig": {
+    "distDir": "dist",
+    "baselineKey": "10-cycle-ghost"
+  }
+}
