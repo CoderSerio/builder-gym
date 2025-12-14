@@ -5,16 +5,19 @@
 > 这一次，我们顺便引入了 rollup 进行对比
 
 ```bash
-pnpm add -D webpack webpack-cli rollup @rollup/plugin-node-resolve @rollup/plugin-commonjs rollup-plugin-postcss postcss
+pnpm add -D \
+  webpack webpack-cli \
+  rollup @rollup/plugin-node-resolve @rollup/plugin-commonjs rollup-plugin-postcss postcss \
+  babel-loader @babel/core @babel/preset-env \
+  style-loader css-loader 
 ```
 
 - webpack/webpack-cli：构建对比组（很多业务在用）
 - rollup：对照组组（天然偏 ESM/库构建友好）
 - node-resolve：让 rollup 能解析 node_modules
 - commonjs：把 CJS 依赖转换为可被 rollup 静态分析的形式
-- rollup-plugin-postcss: rollup 插件
 - postcss: css 预编译的集成库
-- rollup-plugin-postcss + postcss：因为本关源码里有 `import "./styles.css"`，rollup 默认不支持 CSS，需要插件才能处理这种 import
+- rollup-plugin-postcss：因为本关源码里有 `import "./styles.css"`，rollup 默认不支持 CSS（webpack也一样），需要插件才能处理这种 import
 - 其他可选插件：如果还需要处理 TS/JSX 转译，可按需补充 ts/swc/babel 相关插件
 
 ## 什么是 ESM？什么是 CJS？

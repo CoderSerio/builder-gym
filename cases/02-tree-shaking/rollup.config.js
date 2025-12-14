@@ -11,9 +11,10 @@ export default {
     format: "esm",
     sourcemap: false
   },
-  treeshake: false,
+  // TODO: 对比 treeshake: true 和 false 的产物，看看 sub 等没有被使用的函数是否被移除
+  treeshake: true,
   plugins: [
-    // TODO: @rollup/plugin-node-resolve, commonjs, babel/swc 等
+    // TODO: 补全 resolve, commonjs, postcss 等
   ]
 };
 

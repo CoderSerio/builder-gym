@@ -125,6 +125,7 @@ module.exports = {
     filename: '[name].[contenthash].js',
     clean: true
   },
+  // 添加如下内容：
   optimization: {
     usedExports: true,
     sideEffects: true,
