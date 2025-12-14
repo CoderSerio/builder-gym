@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build:webpack:bad": "webpack --mode production --config webpack.runtime.bad.js",
-    "build:webpack": "webpack --mode production --config webpack.runtime.template.js",
-    "build:rspack": "rspack build -c rspack.runtime.template.js",
-    "build": "pnpm run build:webpack:bad",
+    "build:bad": "webpack --mode production --config webpack.config.bad.js",
+    "build:good": "webpack --mode production --config webpack.config.good.js",
+    "build:rspack": "rspack build -c rspack.config.js",
+    "build": "pnpm run build:bad",
     "bench": "node ../../scripts/benchmark.js"
   },
   "benchConfig": {
@@ -14,5 +14,3 @@
     "baselineKey": "04-runtime-chunk"
   }
 }
-
-

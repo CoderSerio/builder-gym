@@ -1,7 +1,7 @@
 const path = require("path");
 
 /**
- * TODO：抽离 runtime，保持 hash 稳定。
+ * 反例：runtime 混入业务，hash 不稳定。
  */
 module.exports = {
   mode: "production",
@@ -9,7 +9,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].[contenthash].js",
-    chunkFilename: "[name].[contenthash].js",
+    // !如果不给一个合适的hash命名，会导致每次构建都会生成新的chunk文件，导致缓存失效
+    chunkFilename: "[name].js",
     clean: true
   },
   module: {
@@ -19,10 +20,8 @@ module.exports = {
     ]
   },
   optimization: {
-    runtimeChunk: "single",
-    splitChunks: {
-      chunks: "all"
-    }
+    runtimeChunk: false, // !问题之一⚠️
+    splitChunks: { chunks: "all" }
   }
 };
 

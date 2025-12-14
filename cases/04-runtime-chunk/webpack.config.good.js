@@ -1,7 +1,7 @@
 const path = require("path");
 
 /**
- * 反例：runtime 混入业务，hash 不稳定。
+ * TODO：抽离 runtime，保持 hash 稳定。
  */
 module.exports = {
   mode: "production",
@@ -9,7 +9,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].[contenthash].js",
-    chunkFilename: "[name].[contenthash].js",
+    // TODO: 修改这里
+    chunkFilename: "[name].js",
     clean: true
   },
   module: {
@@ -19,8 +20,11 @@ module.exports = {
     ]
   },
   optimization: {
-    runtimeChunk: false, // 问题所在
-    splitChunks: { chunks: "all" }
+    // TODO: 修改这里
+    runtimeChunk: false,
+    splitChunks: {
+      chunks: "all"
+    }
   }
 };
 
