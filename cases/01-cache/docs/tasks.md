@@ -8,14 +8,14 @@
 
 ## 任务清单
 ### 1. 安装依赖
-依赖安装命令请看 `learning.md`（本文件不提供答案命令）。
+依赖安装命令请参考 `learning.md`。
 
 ### 2. 跑通反例（bad）
 运行反例构建，确认产物输出为：
 - `dist/bad/bundle.js`（固定文件名）
 
 ### 3. 跑通正例（good）
-运行正例构建，确认产物输出为：
+补全构建脚本`webpack.bad.config.js`，运行正例构建，确认产物输出为：
 - `dist/good/bundle.[contenthash].js`（带 hash）
 
 ### 4. 验证“多版本共存”

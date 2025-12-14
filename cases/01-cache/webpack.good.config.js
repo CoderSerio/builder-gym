@@ -11,7 +11,8 @@ module.exports = {
   entry: path.resolve(__dirname, "src/index.js"),
   output: {
     path: path.resolve(__dirname, "dist/good"),
-    filename: "bundle.[contenthash:8].js",
+    // TODO: 修改 filename 配置，使之变得缓存友好
+    filename: "bundle.js",
     clean: false
   },
   module: {

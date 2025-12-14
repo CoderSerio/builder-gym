@@ -1,6 +1,6 @@
 # Solution - 02 Tree Shaking（具体改法与原因）
 
-## 需要改什么
+## 改动
 
 ### 1. `package.json` - 声明 sideEffects
 
