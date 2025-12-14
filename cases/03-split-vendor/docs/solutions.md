@@ -29,12 +29,12 @@
 ### 3.1 先跑反例（bad）
 **操作**：
 ```bash
-pnpm run build:webpack:bad
+pnpm run build:bad
 ls dist
 ```
 
 **预期**：
-- 只有一个大包（例如 `main.js`），没有 framework/libs 分层
+- 只有一个大包（`main.js`），没有 framework/libs 分层
 
 **解释**：
 - 单包会导致“改业务一行 → 整包 hash 变化 → 框架/三方库也被迫重下”。
@@ -42,11 +42,11 @@ ls dist
 ### 3.2 再跑正例（good）
 **操作**：
 ```bash
-pnpm run build:webpack
+pnpm run build:good
 ls dist
 ```
 
-**你需要改的配置文件**：`webpack.good.js`
+**你需要改的配置文件**：`webpack.good.config.js`
 
 **关键改动点（建议先做这些）**：
 - `output.filename/chunkFilename` 使用 `[name].[contenthash].js`
@@ -85,12 +85,12 @@ ls dist
 **操作**：
 1) 先构建一次正例：
 ```bash
-pnpm run build:webpack
+pnpm run build:good
 ls dist
 ```
 2) 修改业务代码（例如 `src/app.js` 文案）后再次构建：
 ```bash
-pnpm run build:webpack
+pnpm run build:good
 ls dist
 ```
 
@@ -102,32 +102,7 @@ ls dist
 
 ## 完整配置参考（可直接复制）
 
-### `webpack.bad.config.js`（反例）
-```js
-const path = require("path");
-
-module.exports = {
-  mode: "production",
-  entry: path.resolve(__dirname, "src/index.js"),
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "main.js",
-    clean: true
-  },
-  module: {
-    rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
-      { test: /\.css$/, use: ["style-loader", "css-loader"] }
-    ]
-  },
-  optimization: {
-    splitChunks: false,
-    runtimeChunk: false
-  }
-};
-```
-
-### `webpack.good.js`（正例模板：你需要补 cacheGroups）
+### `webpack.good.config.js`
 ```js
 const path = require("path");
 
@@ -137,6 +112,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].[contenthash].js",
+    // 配合 splitChunks，为拆分出来的 chunk 设置命名规则
     chunkFilename: "[name].[contenthash].js",
     clean: true
   },
@@ -147,36 +123,76 @@ module.exports = {
     ]
   },
   optimization: {
+    // 采用 deterministic 稳定（策略）生成 ID，这样
+    moduleIds: "deterministic",
+    chunkIds: "deterministic",
+    // 把 webpack runtime 作为一个单独的 chunk，避免和业务 chunk 发生混淆
+    // webpack runtime 我们会在 04 章节学习
+    runtimeChunk: "single",
     splitChunks: {
       chunks: "all",
       cacheGroups: {
-        // ... 在这里补 framework/libs/commons 的分层 ...
+        framework: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          name: "framework",
+          chunks: "all",
+          priority: 40,
+          enforce: true
+        },
+        libs: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "libs",
+          chunks: "all",
+          priority: 30,
+          reuseExistingChunk: true
+        },
+        commons: {
+          test: /[\\/]src[\\/]/,
+          name: "commons",
+          minChunks: 2,
+          priority: 10,
+          reuseExistingChunk: true
+        },
+        app: {
+          test: /[\\/]src[\\/]app\.js$/,
+          name: "app",
+          chunks: "all",
+          priority: 20,
+          enforce: true
+        }
       }
     },
-    runtimeChunk: "single"
   }
 };
 ```
 
-### `rollup.manual.config.js`（对照模板：你需要补 manualChunks）
+### `rollup.manual.config.js`
 ```js
-import path from "path";
+const path = require("path");
+const resolve = require("@rollup/plugin-node-resolve").default;
+const commonjs = require("@rollup/plugin-commonjs");
+const postcss = require("rollup-plugin-postcss");
 
-export default {
+module.exports = {
   input: path.resolve("src/index.js"),
   output: {
-    dir: "dist",
+    dir: "dist/rollup",
     format: "esm",
     entryFileNames: "[name].[hash].js",
     chunkFileNames: "[name].[hash].js"
   },
   treeshake: true,
+  // rollup 就需要手动写逻辑拆分了，这就是 “manual” 的含义
   manualChunks(id) {
-    // ... 在这里补 framework/libs/commons 的分层 ...
+    if (id.includes("node_modules")) {
+      if (id.includes(`${path.sep}react${path.sep}`) || id.includes(`${path.sep}react-dom${path.sep}`)) {
+        return "framework";
+      }
+      return "libs";
+    }
+    if (id.endsWith(`${path.sep}src${path.sep}app.js`)) return "app";
     return null;
   },
-  plugins: [
-    // ... 按需补 node-resolve/commonjs/css 等插件 ...
-  ]
+  plugins: [resolve({ browser: true }), commonjs(), postcss({ inject: true })]
 };
 ```

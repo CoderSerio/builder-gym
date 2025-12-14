@@ -1,23 +1,36 @@
-import path from "path";
+const path = require("path");
+const resolve = require("@rollup/plugin-node-resolve").default;
+const commonjs = require("@rollup/plugin-commonjs");
+const postcss = require("rollup-plugin-postcss");
 
 /**
- * TODO: 使用 manualChunks 拆分 framework/lib/commons。
+ * Rollup 对照方案：
+ * - 用 manualChunks 把 framework/libs 分组
+ * - 用 postcss 处理 CSS import（本案例有 import "./styles.css"）
  */
-export default {
+module.exports = {
   input: path.resolve("src/index.js"),
   output: {
-    dir: "dist",
+    dir: "dist/rollup",
     format: "esm",
     entryFileNames: "[name].[hash].js",
     chunkFileNames: "[name].[hash].js"
   },
   treeshake: true,
   manualChunks(id) {
-    // TODO: 根据路径匹配拆分
+    if (id.includes("node_modules")) {
+      if (id.includes(`${path.sep}react${path.sep}`) || id.includes(`${path.sep}react-dom${path.sep}`)) {
+        return "framework";
+      }
+      return "libs";
+    }
+    if (id.endsWith(`${path.sep}src${path.sep}app.js`)) return "app";
     return null;
   },
   plugins: [
-    // TODO: node-resolve/commonjs/swc
+    resolve({ browser: true }),
+    commonjs(),
+    postcss({ inject: true })
   ]
 };
 

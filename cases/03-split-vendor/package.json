@@ -8,10 +8,10 @@
     "react-dom": "^18.3.1"
   },
   "scripts": {
-    "build:webpack:bad": "webpack --mode production --config webpack.bad.config.js",
-    "build:webpack": "webpack --mode production --config webpack.good.config.js",
+    "build:bad": "webpack --mode production --config webpack.bad.config.js",
+    "build:good": "webpack --mode production --config webpack.good.config.js",
     "build:rollup": "rollup -c rollup.manual.config.js",
-    "build": "pnpm run build:webpack:bad",
+    "build": "pnpm run build:bad",
     "bench": "node ../../scripts/benchmark.js"
   },
   "benchConfig": {
@@ -21,8 +21,13 @@
   "devDependencies": {
     "@babel/core": "^7.28.3",
     "@babel/preset-env": "^7.28.3",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
     "babel-loader": "^10.0.0",
     "css-loader": "^7.1.2",
+    "postcss": "^8.5.6",
+    "rollup": "^4.53.3",
+    "rollup-plugin-postcss": "^4.0.2",
     "style-loader": "^4.0.0",
     "webpack": "^5.103.0",
     "webpack-cli": "^6.0.1"

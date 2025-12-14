@@ -34,6 +34,45 @@ webpack 会根据模块依赖关系把代码拆成 chunk。
 - 哪些模块属于哪个层
 - chunk 的命名与优先级
 
+### 一个最小语法示范
+下面这段不是“标准答案”，
+只是用于参考 cacheGroups 的**写法**（test/name/priority/enforce）：
+
+```js
+// webpack.config.js（片段）
+module.exports = {
+  // ...
+  optimization: {
+    splitChunks: {
+      // chunks 分为同步（异步导入的，对应“sync”）和异步（动态导入的,对应"async"）
+      // “all” 则代表全部都打包
+      // 当然了，也可以写回调函数做手动处理
+      chunks: "all",
+      cacheGroups: {
+        // 分组（也就是目录）名字，可以自定义
+        framework: {
+          // test：匹配哪些模块会进入这个分组，用正则语法匹配即可
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          // name：生成的 chunk 名称（最终会得到 framework.[contenthash].js 之类的文件）
+          name: "framework",
+          // priority：优先级，命中多个分组时，priority 更高的先用（避免 framework 又被 libs 吃掉）
+          priority: 40,
+          // enforce：强制生效（忽略默认的 minSize/minChunks 等门槛，确保一定会拆出来）
+          enforce: true
+        },
+        libs: {
+          // 兜底分组：其余 node_modules 都归到 libs
+          test: /[\\/]node_modules[\\/]/,
+          name: "libs",
+          // priority 比 framework 低，让 framework 先匹配
+          priority: 30
+        }
+      }
+    }
+  }
+};
+```
+
 ## rollup 的 manualChunks 是什么
 rollup 更偏“库构建”与 ESM 模型。
 `manualChunks` 允许你通过函数把不同模块分配到不同 chunk：

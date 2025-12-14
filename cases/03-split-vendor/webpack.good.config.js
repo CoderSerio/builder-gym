@@ -1,9 +1,5 @@
 const path = require("path");
 
-/**
- * TODO: 按 Framework/Libs/Commons/App 分层拆分，并保持 contenthash 稳定。
- * 提示：使用 splitChunks.cacheGroups + runtimeChunk: 'single'。
- */
 module.exports = {
   mode: "production",
   entry: path.resolve(__dirname, "src/index.js"),
@@ -20,14 +16,15 @@ module.exports = {
     ]
   },
   optimization: {
+    moduleIds: "deterministic",
+    chunkIds: "deterministic",
+    runtimeChunk: "single",
     splitChunks: {
+      // TODO: 补全这一切！
       chunks: "all",
       cacheGroups: {
-        // TODO: framework/lib/commons/app 分层
+
       }
-    },
-    runtimeChunk: {
-      name: "runtime"
     }
   }
 };
