@@ -3,16 +3,25 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build:client": "webpack --mode production --config webpack.client.template.js",
-    "build:server": "webpack --mode production --config webpack.server.template.js",
-    "build:rollup:server": "rollup -c rollup.server.template.js",
-    "build": "pnpm run build:client && pnpm run build:server",
+    "dev": "next dev --turbo",
+    "build": "next build",
+    "start": "next start",
     "bench": "node ../../scripts/benchmark.js"
   },
   "benchConfig": {
-    "distDir": "dist",
+    "distDir": ".next",
     "baselineKey": "08-ssr-bundle"
+  },
+  "dependencies": {
+    "next": "^15.0.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "turbo": "^2.6.3",
+    "typescript": "^5.0.0"
   }
 }
-
-

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 11, "column": 0}, "map": {"version":3,"sources":["file:///Users/carbon/Desktop/programms/infra/builder-gym/cases/08-ssr-bundle/app/page.tsx"],"sourcesContent":["// Server Component（默认，无需标记）\n// Turbopack 会自动识别并只在 server 端渲染\nexport default function Page() {\n  // 添加时间戳用于验证 SSR：每次请求都会在服务端重新渲染，时间戳会变化\n  const serverTime = new Date().toISOString();\n\n  return (\n    <div>\n      <h1>SSR Friendly Bundle</h1>\n      <p>This is rendered on the server by Turbopack.</p>\n      <p>\n        <strong>Server rendered at:</strong> {serverTime}\n      </p>\n      <p style={{ fontSize: \"12px\", color: \"#666\" }}>\n        💡 提示：刷新页面多次，如果时间戳每次都变化，说明 SSR\n        生效（每次请求都在服务端重新渲染）\n      </p>\n    </div>\n  );\n}\n"],"names":[],"mappings":"AAAA,4BAA4B;AAC5B,gCAAgC;;;;;;;AACjB,SAAS;IACtB,sCAAsC;IACtC,MAAM,aAAa,IAAI,OAAO,WAAW;IAEzC,qBACE,6WAAC;;0BACC,6WAAC;0BAAG;;;;;;0BACJ,6WAAC;0BAAE;;;;;;0BACH,6WAAC;;kCACC,6WAAC;kCAAO;;;;;;oBAA4B;oBAAE;;;;;;;0BAExC,6WAAC;gBAAE,OAAO;oBAAE,UAAU;oBAAQ,OAAO;gBAAO;0BAAG;;;;;;;;;;;;AAMrD","debugId":null}}]
+}
