@@ -130,20 +130,39 @@ module.exports = {
 当你构建出 `dist/index.mjs`（ESM）、`dist/index.cjs`（CJS）、`dist/index.d.ts`（类型）后，还需要在 `package.json` 里告诉工具链"怎么找到这些文件"：
 
 ### 1) `exports`（现代推荐写法）
+
+这是 Node.js 从 **v12.7+** 开始支持的"**条件导出**"（Conditional Exports）机制。
+
 ```json
 {
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   }
 }
 ```
-- `import`：当消费方用 `import` 时，走这个入口（ESM）
-- `require`：当消费方用 `require` 时，走这个入口（CJS）
-- `types`：告诉 TypeScript 类型声明文件在哪
+
+**作用**：明确告诉工具链"根据使用方式，选择不同的文件"：
+- **`"."`**：表示包的主入口（消费方 `import "my-lib"` 或 `require("my-lib")` 时命中这里）
+- **`"types"`**：告诉 TypeScript 类型声明文件在哪（`.d.ts`）
+- **`"import"`**：当消费方用 `import` 语法（ESM）时，走这个文件
+- **`"require"`**：当消费方用 `require` 语法（CJS）时，走这个文件
+
+**⚠️ 顺序很重要**：
+- 条件匹配是**按顺序**的，**`types` 必须放在最前面**
+- 如果你写成 `import → require → types`，TypeScript 会先命中 `import/require`，导致 `types` 永远走不到（esbuild/tsup 会警告你）
+
+**为什么是现代推荐写法**：
+- 更**精确**：不同工具链/环境可以明确拿到"最合适的格式"
+- 更**显式**：比 `main/module` 更直观（一眼能看出 ESM/CJS 分别对应哪个文件）
+- **支持更复杂导出**：可以导出子路径（例如 `"./utils": ...`），实现"按需导出"
+
+**如果不写会怎样**：
+- 现代工具链（Node 18+/Vite/Rspack）可能找不到正确入口，或者回退到 `main` 字段
+- 消费方可能拿不到 ESM 格式（导致 Tree Shaking 失效）
 
 ### 2) `main` / `module` / `types`（兼容老工具链）
 ```json
@@ -209,6 +228,10 @@ export default {
 - rollup 需要手动配 plugins（`@rollup/plugin-typescript` 处理 TS）
 - rollup 的 `external` 写法和 tsup 一致
 - rollup 更显式（每个环节都看得见），但配置更多
+
+## tsconfig.json
+
+由于 tsconfig 也是一个内容较多的知识点，所以这里开了一个 `ts-learning.md` 说明.
 
 ## 如何验证三件事（类型/摇树/external）
 

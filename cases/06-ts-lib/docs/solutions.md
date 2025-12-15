@@ -1,6 +1,6 @@
-# Solution - 06 库构建（逐步对齐 tasks）
+# Solution - 06 库构建
 
-> 本答案的结构严格对齐 `docs/tasks.md` 的 1-4 步；每一步都包含：**操作** / **你需要改哪里** / **为什么** / **如何验收**。
+> 本答案的结构严格对齐 `docs/tasks.md` 的 1-4 步；每一步都包含：**操作** / **需要改哪里** / **为什么** / **如何验收**。
 
 ## 1. 安装依赖
 
@@ -13,13 +13,13 @@
 - 运行时依赖（本 demo 用到了 React）需要 `react` + `react-dom`
 
 **验收**：
-- 安装后 `pnpm -C cases/06-ts-lib run build:tsup` 能正常执行（即使产物可能还不完美）
+- 安装后 `pnpm build:tsup` 能正常执行（即使产物可能还不完美）
 
 ---
 
 ## 2. 使用 tsup 输出 ESM + CJS + d.ts
 
-**你需要改的文件**：`tsup.config.ts`
+**我们需要改的文件**：`tsup.config.ts`
 
 **关键配置点**：
 - `entry: ["src/index.ts"]`：入口文件
@@ -34,11 +34,7 @@
 - `external` 避免把 React 打进库（否则消费方会加载两份 React）
 - `dts: true` 让 TypeScript 消费方能拿到类型提示
 
-**验收**：
-```bash
-pnpm -C cases/06-ts-lib run build:tsup
-ls cases/06-ts-lib/dist
-```
+
 **预期**：
 - `dist/index.js`（或 `index.mjs`）：ESM 格式
 - `dist/index.cjs`：CJS 格式
@@ -49,11 +45,11 @@ ls cases/06-ts-lib/dist
 
 ## 3. rollup 对比方案（可选）
 
-**你需要改的文件**：`rollup.config.js`
+**我们需要改的文件**：`rollup.config.js`
 
 **关键配置点**：
 - `external: ["react", "react-dom"]`：与 tsup 保持一致
-- `treeshake: true`：启用摇树（反例中是 `false`，你需要改成 `true`）
+- `treeshake: true`：启用摇树（反例中是 `false`，需要改成 `true`）
 - `output`：分别输出 `dist/index.cjs`（CJS）和 `dist/index.mjs`（ESM）
 - `plugins`：
   - `@rollup/plugin-node-resolve`：解析 node_modules
@@ -120,9 +116,9 @@ ls cases/06-ts-lib/dist
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   }
 }
@@ -133,6 +129,7 @@ ls cases/06-ts-lib/dist
 - `module`：老版本 webpack/rollup 识别 ESM 入口的方式
 - `types`：告诉 TypeScript 类型声明文件在哪
 - `exports`：现代推荐写法，明确告诉工具链"import 走哪个文件、require 走哪个文件"
+- **⚠️ `exports` 里的 `types` 必须放在最前面**（条件按顺序匹配，放后面会被 import/require 先命中）
 
 ---
 
@@ -187,10 +184,11 @@ export default {
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   }
 }
 ```
+> 注意：`exports` 里的 `"types"` 必须放在最前面，否则会被 `import/require` 先命中，导致 TypeScript 拿不到类型声明。
