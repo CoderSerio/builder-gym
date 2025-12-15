@@ -1,4 +1,5 @@
-// 先触发“幽灵依赖”：本文件引用 lodash，但本关卡初始不声明它
+// 先不要安装依赖，直接 pnpm run build，尝试触发"幽灵依赖"：
+// 代码中引用了 lodash，但 package.json 中没有声明
 const { chunk } = require("lodash");
 
 // 修复幽灵依赖后，这里会继续触发“循环引用”问题

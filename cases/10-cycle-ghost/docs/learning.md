@@ -4,7 +4,7 @@
 先安装本关会用到的工具（推荐在仓库根目录执行，使用 filter 安装到本 package）：
 
 ```bash
-pnpm --filter @build-gym/10-cycle-ghost add -D lodash
+pnpm add -D lodash
 ```
 
 > 注意：本章节一开始“故意不装 lodash”，让你先复现幽灵依赖报错；完成任务时你才需要把它加进去。
