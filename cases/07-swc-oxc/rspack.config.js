@@ -1,13 +1,20 @@
 const path = require("path");
 const { defineConfig } = require("@rspack/cli");
+const { HtmlRspackPlugin } = require("@rspack/core");
 
 /**
- * TODO：在 Rspack 中使用内置 SWC，并结合 cache/lazyCompilation。
+ * Rspack + SWC 示例（已完成，可作为参考）：
+ * - 使用 builtin:swc-loader（Rspack 内置，无需额外安装）
+ * - 启用 filesystem cache（二次启动更快）
+ * - 启用 lazyCompilation（按需编译，减少冷启动工作量）
  */
 module.exports = defineConfig({
   mode: "development",
   entry: {
     main: path.resolve(__dirname, "src/index.tsx")
+  },
+  resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".json"]
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -16,11 +23,16 @@ module.exports = defineConfig({
     clean: true
   },
   devtool: "eval-cheap-module-source-map",
+  plugins: [
+    new HtmlRspackPlugin({
+      template: path.resolve(__dirname, "src/index.html")
+    })
+  ],
   builtins: {
     react: {
       runtime: "automatic",
       development: true,
-      refresh: true
+      refresh: false  // CLI build 不需要 refresh
     }
   },
   module: {
@@ -33,7 +45,7 @@ module.exports = defineConfig({
           jsc: {
             parser: { syntax: "typescript", tsx: true },
             target: "es2019",
-            transform: { react: { runtime: "automatic", refresh: true } }
+            transform: { react: { runtime: "automatic" } }
           }
         }
       }

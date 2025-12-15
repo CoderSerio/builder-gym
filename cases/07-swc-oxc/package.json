@@ -4,13 +4,22 @@
   "private": true,
   "scripts": {
     "build:swc": "swc src -d dist --config-file swc.config.json",
-    "build:rspack": "rspack build -c rspack.config.template.js",
+    "build:rspack": "rspack build -c rspack.config.js",
     "build": "pnpm run build:swc",
     "bench": "node ../../scripts/benchmark.js"
   },
   "benchConfig": {
     "distDir": "dist",
     "baselineKey": "07-swc-oxc"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@rspack/cli": "^1.6.7",
+    "@rspack/core": "^1.6.7",
+    "@swc/cli": "^0.5.2",
+    "@swc/core": "^1.15.4"
   }
 }
-
