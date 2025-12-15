@@ -10,7 +10,7 @@
   "scripts": {
     "build:bad": "webpack --mode production --config webpack.bad.config.js",
     "build:good": "webpack --mode production --config webpack.good.config.js",
-    "build:rollup": "rollup -c rollup.manual.config.js",
+    "build:rollup": "rollup -c rollup.config.js",
     "build": "pnpm run build:bad",
     "bench": "node ../../scripts/benchmark.js"
   },

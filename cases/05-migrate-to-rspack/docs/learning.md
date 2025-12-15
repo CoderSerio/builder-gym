@@ -82,11 +82,11 @@ pnpm add -D @rspack/cli @rspack/core @rspack/plugin-react-refresh react-refresh
 
 一句话记忆：**loader 处理‘某个文件怎么进模块图’，plugin 处理‘整个构建过程/产物怎么被组织起来’**。
 
-### 3. 再做“开发体验优化”（Rspack 侧）
+### 3. 再做"开发体验优化"（Rspack 侧）
 本章节要你重点关注三个字段（在 `rspack.config.js` 中）：
-- **devtool**：开发模式尽量用 `eval-cheap-module-source-map` 这类更快的方案（生产模式则是 
+- **devtool**：开发模式尽量用 `eval-cheap-module-source-map` 这类更快的方案（生产模式则用 `source-map` 或 `hidden-source-map`）
 - **cache（filesystem）**：让重复启动/重复编译更快
-- **lazyCompilation**：把“首次启动要编译的东西”变少，提升冷启动体验
+- **lazyCompilation**：把"首次启动要编译的东西"变少，提升冷启动体验
 
 另外，Rspack 更主张“内置化”，例如 `builtin:swc-loader`、`builtins.react` 的 refresh、以及部分构建优化能力。
 **但仍然有不少插件形式提供的部分**，比如更偏“产物组织/工程集成”的能力（比如 HTML 生成、PWA、某些资源注入）通常不会硬塞进 `@rspack/core`，而是拆成**官方插件**。

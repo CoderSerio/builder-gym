@@ -1,0 +1,37 @@
+{
+  "name": "@build-gym/06-lib-bundle",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build:tsup": "tsup --config tsup.config.ts",
+    "build:rollup": "rollup -c rollup.config.js",
+    "build": "pnpm run build:tsup",
+    "bench": "node ../../scripts/benchmark.js"
+  },
+  "benchConfig": {
+    "distDir": "dist",
+    "baselineKey": "06-lib-bundle"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "rollup": "^4.53.3",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2"
+  }
+}

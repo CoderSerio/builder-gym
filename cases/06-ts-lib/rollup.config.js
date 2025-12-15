@@ -4,22 +4,24 @@ import nodeResolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 
 /**
- * 反例/待优化：可能未 external 依赖，runtime 冗余。
- * TODO: external React 等，开启 treeshake，优化输出格式。
+ * TODO: 配置 rollup 实现与 tsup 等价的库构建：
+ * - external: ["react", "react-dom"]
+ * - treeshake: true
+ * - 输出 ESM/CJS 两种格式
  */
 export default {
   input: path.resolve("src/index.ts"),
   output: [
-    { file: "dist/index.cjs", format: "cjs", sourcemap: true },
-    { file: "dist/index.mjs", format: "esm", sourcemap: true }
+    { file: "dist/rollup/index.cjs", format: "cjs", sourcemap: true },
+    { file: "dist/rollup/index.mjs", format: "esm", sourcemap: true }
   ],
   plugins: [
     nodeResolve({ extensions: [".js", ".ts", ".tsx"] }),
     commonjs(),
     typescript({ tsconfig: "./tsconfig.json" })
   ],
-  treeshake: false,
-  external: [] // TODO: externalize react/react-dom
+  treeshake: false, // TODO: 改成 true
+  external: [] // TODO: 添加 ["react", "react-dom"]
 };
 
 
