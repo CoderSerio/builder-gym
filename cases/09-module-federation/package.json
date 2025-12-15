@@ -3,26 +3,31 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build:remote:webpack": "webpack --mode production --config remote/webpack.config.js",
-    "build:host:webpack": "webpack --mode production --config host/webpack.config.js",
-    "build:remote:rspack": "rspack build -c remote/rspack.config.js",
-    "build:host:rspack": "rspack build -c host/rspack.config.js",
-
-    "serve:remote:webpack": "node serve-static.js --dir remote/dist/webpack --port 3001 --cors",
-    "serve:host:webpack": "node serve-static.js --dir host/dist/webpack --port 3000 --cors",
-    "serve:remote:rspack": "node serve-static.js --dir remote/dist/rspack --port 3001 --cors",
-    "serve:host:rspack": "node serve-static.js --dir host/dist/rspack --port 3000 --cors",
-
-    "dev:webpack": "node dev-runner.js --tool webpack",
-    "dev:rspack": "node dev-runner.js --tool rspack",
-
-    "build": "pnpm run build:remote:webpack && pnpm run build:host:webpack",
+    "dev:remote": "webpack serve --mode development --config src/remote/webpack.config.js",
+    "dev:host": "webpack serve --mode development --config src/host/webpack.config.js",
+    "build:remote": "webpack --mode production --config src/remote/webpack.config.js",
+    "build:host": "webpack --mode production --config src/host/webpack.config.js",
+    "serve:remote": "node serve-static.js --dir src/remote/dist/webpack --port 3001 --cors",
+    "serve:host": "node serve-static.js --dir src/host/dist/webpack --port 3000 --cors",
+    "build": "pnpm run build:remote && pnpm run build:host",
     "bench": "node ../../scripts/benchmark.js"
   },
   "benchConfig": {
-    "distDir": "host/dist/webpack",
+    "distDir": "src/host/dist/webpack",
     "baselineKey": "09-module-federation"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.15.4",
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.5",
+    "style-loader": "^4.0.0",
+    "swc-loader": "^0.2.6",
+    "webpack": "^5.103.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.15.2"
+  },
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   }
 }
-
-
