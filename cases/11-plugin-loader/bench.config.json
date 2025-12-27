@@ -1,0 +1,6 @@
+{
+  "distDir": "dist",
+  "buildCommand": "pnpm run bench",
+  "baselineKey": "11-plugin-loader",
+  "clean": true
+}

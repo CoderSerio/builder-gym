@@ -1,0 +1,15 @@
+{
+  "name": "@case11/i18n-collect-rs",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Native addon for fast i18n key collection (rspack case)",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "files": ["index.node", "index.js", "index.d.ts"],
+  "devDependencies": {
+    "@napi-rs/cli": "^2.18.3"
+  },
+  "napi": {
+    "name": "i18n_collect_rs"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@build-gym/11-plugin-loader",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Case 11: JS Loader + JS Plugin + Rspack Rust plugin (i18n collect & debug strip)",
+  "scripts": {
+    "build:webpack": "webpack --mode production --config webpack.config.js",
+    "build:rspack:js": "PLUGIN_IMPL=js rspack build -c rspack.config.js",
+    "build:rspack:rust": "PLUGIN_IMPL=rust rspack build -c rspack.config.js",
+    "build:rspack:native": "PLUGIN_IMPL=native rspack build -c rspack.config.js",
+    "build:rspack:define": "PLUGIN_IMPL=js STRIP_IMPL=define rspack build -c rspack.config.js",
+    "bench": "node scripts/bench.js",
+    "build:native": "node scripts/build-native.js",
+    "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "benchConfig": {
+    "distDir": "dist",
+    "baselineKey": "11-plugin-loader"
+  },
+  "dependencies": {
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@rspack/cli": "^1.6.7",
+    "@rspack/core": "^1.6.7",
+    "@swc/core": "^1.15.4",
+    "swc-loader": "^0.2.6",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4",
+    "html-webpack-plugin": "^5.6.0",
+    "terser-webpack-plugin": "^5.3.10"
+  }
+}

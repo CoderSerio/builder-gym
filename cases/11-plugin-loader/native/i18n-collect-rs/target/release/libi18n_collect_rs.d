@@ -1,0 +1,1 @@
+/Users/carbon/Desktop/programms/infra/builder-gym/cases/11-plugin-loader/native/i18n-collect-rs/target/release/libi18n_collect_rs.dylib: /Users/carbon/Desktop/programms/infra/builder-gym/cases/11-plugin-loader/native/i18n-collect-rs/build.rs /Users/carbon/Desktop/programms/infra/builder-gym/cases/11-plugin-loader/native/i18n-collect-rs/src/lib.rs
