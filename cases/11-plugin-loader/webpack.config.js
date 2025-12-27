@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const { I18nCollectPlugin } = require('./plugins/i18n-collect-plugin');
+const { I18nCollectPlugin } = require('./plugins/js/i18n-collect-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: [
-          path.resolve(__dirname, 'loaders/strip-debug-block-loader.js'),
+          path.resolve(__dirname, 'loaders/js/strip-debug-block-loader.js'),
           {
             loader: 'swc-loader',
             options: {

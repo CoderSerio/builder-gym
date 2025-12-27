@@ -34,12 +34,20 @@ pnpm bench
 ```
 
 脚本将依次执行：
-- webpack + JS 插件
-- Rspack + JS 插件
-- Rspack + Rust 插件（若原生扩展可用）
-- Rspack + DefinePlugin 对照组
+- webpack + JS 插件（webpack+js）
+- Rspack + JS 插件（rspack+js）
+- Rspack + JS 插件 + Rust 加速（rspack+rust，原生扩展可用则启用）
+- Rspack + 原生桥接插件（rspack+native，强制使用原生扩展）
+- Rspack + DefinePlugin 对照组（rspack+define）
 
 输出包括：每个变体的构建耗时、产物总体积与 gzip 体积，以及收集到的 i18n key 数量。
+
+### 变体分组含义与差异
+- webpack+js：webpack 配置 + 自定义 Loader（注释块剔除）+ JS 插件收集 i18n key，不使用 Rust；“传统链路”对照。
+- rspack+js：Rspack 配置 + 自定义 Loader + JS 插件；功能与 webpack+js 等价，用于观察 Rspack 的性能差异。
+- rspack+rust：同 rspack+js，但通用 JS 插件内部优先使用 N-API 原生扩展进行字符串扫描；若原生不可用则自动回退 JS。
+- rspack+native：使用“原生桥接插件”接入 Rspack 生命周期，强制调用 N-API 原生扩展（不可用则报错，不回退）。
+- rspack+define：使用 Rspack 内置 DefinePlugin 常量折叠（`__DEBUG__ = false`）+ 压缩移除 `if (__DEBUG__) {}` 分支；不处理注释块分界。
 
 ## 关于 Rspack 的 Rust 插件体系 vs 本关实现
 
@@ -53,8 +61,15 @@ pnpm bench
   - 但当前生态下，面向第三方分发的“二进制动态加载”与稳定 ABI 仍在演进中；通常推荐作为内置插件或与 Rspack 源码同树/同版本构建，以避免版本失配。
   - 如果你的目标仅服务 Rspack 且能接受与其版本绑定，那么“原生 Rust 插件”是性能与可观测性更强的路线；若需要跨工具或更易分发，N-API 扩展 + JS 薄封装更务实。
 
+### Rspack 插件形态（本关涉及与扩展）
+- JS 插件（webpack 兼容）：`plugins/js/i18n-collect-plugin.js`，通过编译钩子实现功能，可在 webpack 与 Rspack 之间复用。
+- JS 插件 + N-API 原生扩展：同上，但在插件内部优先调用原生扩展加速（rspack+rust 变体）。
+- 原生桥接插件（Native-Bridge）：专供 Rspack 的 JS 插件外壳，生命周期中强制调用原生扩展（rspack+native 变体）。
+- Rspack 原生 Rust 插件（真正内核插件）：直接使用 Rspack 的 Rust 插件接口（Trait/Hook）构建，性能/可观测性最佳，但强版本耦合、分发难。
+- 内置插件：如 `DefinePlugin`，与压缩器配合移除无用分支（教学对照，不等价于注释块剔除）。
+
 ### 本关增加的“Native-Bridge”变体
-- 目录：`plugins/i18n-collect-plugin.native.js`
+- 目录：`plugins/js-native-bridge/i18n-collect-plugin.native.js`
 - 思路：仍以 N-API 扩展实现核心逻辑，但以“插件外壳”的形式接入 Rspack（而非通用 JS 插件里再行判断），便于与 JS 插件和 Define 对照一起跑分。
 - 命令：`pnpm run build:rspack:native`（需要先 `pnpm run build:native`）
 

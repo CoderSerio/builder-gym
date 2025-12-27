@@ -1,8 +1,8 @@
 const path = require('path');
 const { defineConfig } = require('@rspack/cli');
 const { HtmlRspackPlugin, DefinePlugin } = require('@rspack/core');
-const { I18nCollectPlugin } = require('./plugins/i18n-collect-plugin');
-const { I18nCollectNativeBridge } = (() => { try { return require('./plugins/i18n-collect-plugin.native'); } catch (_) { return {}; } })();
+const { I18nCollectPlugin } = require('./plugins/js/i18n-collect-plugin');
+const { I18nCollectNativeBridge } = (() => { try { return require('./plugins/js-native-bridge/i18n-collect-plugin.native'); } catch (_) { return {}; } })();
 
 const impl = process.env.PLUGIN_IMPL || 'js'; // js | rust
 const stripImpl = process.env.STRIP_IMPL || 'loader'; // loader | define
@@ -24,7 +24,7 @@ module.exports = defineConfig({
         exclude: /node_modules/,
         // loader 方案：剔除注释块
         use: [
-          stripImpl === 'loader' && path.resolve(__dirname, 'loaders/strip-debug-block-loader.js'),
+          stripImpl === 'loader' && path.resolve(__dirname, 'loaders/js/strip-debug-block-loader.js'),
           {
             loader: 'builtin:swc-loader',
             options: { jsc: { parser: { syntax: 'ecmascript' }, target: 'es2019' } }

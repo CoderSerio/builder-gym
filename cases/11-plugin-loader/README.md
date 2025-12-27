@@ -10,3 +10,11 @@
 - 了解 Rspack 内置 `DefinePlugin` 作为“调试代码移除”的等价思路（对照组）。
 
 运行方式见 `docs/learning.md` 与 `scripts/bench.js`。
+
+目录结构（关键部分）
+- `plugins/`
+  - `js/`：通用 JS 插件（i18n 收集）
+  - `js-native-bridge/`：Rspack 原生桥接插件（JS 外壳，强制调用 N-API）
+  - `rust-napi/`：Rust N-API 扩展源码（字符串扫描加速）
+- `loaders/`
+  - `js/`：JS Loader（调试注释块剔除）

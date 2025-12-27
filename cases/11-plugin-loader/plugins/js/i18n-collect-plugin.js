@@ -8,7 +8,7 @@ const { RawSource } = (() => {
 function tryLoadNative() {
   try {
     // 尝试加载本地构建的 N-API 扩展
-    return require('../native/i18n-collect-rs');
+    return require('../rust-napi/i18n-collect-rs');
   } catch (e) {
     return null;
   }

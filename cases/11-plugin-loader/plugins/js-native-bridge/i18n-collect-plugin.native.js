@@ -2,7 +2,7 @@
 const { RawSource } = require('@rspack/core').sources;
 let native;
 try {
-  native = require('../native/i18n-collect-rs');
+  native = require('../rust-napi/i18n-collect-rs');
 } catch (e) {
   throw new Error('[I18nCollectNativeBridge] 未找到原生模块，请先执行 pnpm run build:native');
 }
